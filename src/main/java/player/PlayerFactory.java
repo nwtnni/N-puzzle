@@ -1,6 +1,8 @@
 package player;
 
-import heuristic.*;
+import heuristic.Naive;
+import heuristic.OutOfPlace;
+import heuristic.Manhattan;
 
 import puzzle.AbstractPuzzle;
 
@@ -17,7 +19,7 @@ public class PlayerFactory {
     }
 
     /*
-     * Returns a BFSPlayer using the naive BFS heuristic.
+     * Returns a BFSPlayer using the naive breadth-first search.
      */
     public static AbstractPlayer getNaive(AbstractPuzzle ap) {
         return new BFSPlayer(ap, new Naive());
@@ -36,5 +38,12 @@ public class PlayerFactory {
      */
     public static AbstractPlayer getManhattan(AbstractPuzzle ap) {
         return new BFSPlayer(ap, new Manhattan());
+    }
+
+    /*
+     * Returns an IDSPlayer.
+     */
+    public static AbstractPlayer getIDS(AbstractPuzzle ap) {
+        return new IDSPlayer(ap);
     }
 }

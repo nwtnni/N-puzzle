@@ -4,27 +4,22 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.PriorityQueue;
 
 import puzzle.AbstractPuzzle;
-
-import heuristic.Heuristic;
 
 import util.PuzzleNode;
 
 /*
  * Represents a program that solves the n-puzzle
- * using some variation of breadth-first search.
+ * using iterative depth-first search.
  */
-public class BFSPlayer extends AbstractPlayer {
+public class IDSPlayer extends AbstractPlayer {
 
     protected PuzzleNode root;
-    protected Heuristic h;
     protected Deque<Integer> moves;
 
-    public BFSPlayer(AbstractPuzzle puzzle, Heuristic heuristic) {
+    public IDSPlayer(AbstractPuzzle puzzle) {
         super(puzzle);
-        h = heuristic;
         root = new PuzzleNode(puzzle, 0);
         moves = new ArrayDeque<Integer>();
     }
@@ -45,46 +40,57 @@ public class BFSPlayer extends AbstractPlayer {
         puzzle.move(moves.pop());
     }
 
-    // Helper method for BFS
+    // Helper method for IDS
     protected void getMoves() {
+        int depth = 1; 
+        while (!DFS(depth++)) {}
+        return;
+    }
+
+    // Depth-first search
+    protected boolean DFS(int maxDepth) {
 
         HashSet<PuzzleNode> found = new HashSet<PuzzleNode>();
-        PriorityQueue<PuzzleNode> q = new PriorityQueue<PuzzleNode>(h);
+        Deque<PuzzleNode> stack = new ArrayDeque<PuzzleNode>();
         HashMap<PuzzleNode, PuzzleNode> retrace = new HashMap<PuzzleNode, PuzzleNode>();
 
-        q.add(root);
+        stack.push(root);
 
-        while (!q.isEmpty()) {
+        while (!stack.isEmpty()) {
 
-            PuzzleNode n = q.poll(); 
+            PuzzleNode n = stack.pop(); 
 
             // Keep searching
             if (!n.solved()) {
 
-                n.generate();
+                if (n.getDepth() >= maxDepth) {
+                    continue;
+                } else {
+                    n.generate();
+                }
 
                 for (PuzzleNode next : n.getChildren()) {
                     if (found.contains(next)) {
                         continue;
                     } else {
                         found.add(next);
-                        q.add(next);
+                        stack.push(next);
                         retrace.put(next, n);
                     }
                 }
             // Otherwise retrace steps
             } else {
-
                 PuzzleNode ptr = n;
-
                 while (!ptr.equals(root)) {
                     PuzzleNode prev = retrace.get(ptr);
                     moves.push(ptr.diff(prev));
                     ptr = prev;
                 }
 
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 }

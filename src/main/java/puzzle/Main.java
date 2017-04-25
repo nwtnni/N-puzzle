@@ -2,10 +2,7 @@ package puzzle;
 
 import java.util.concurrent.TimeUnit;
 
-import heuristic.Manhattan;
-
 import player.AbstractPlayer;
-import player.BFSPlayer;
 import player.PlayerFactory;
 
 public class Main {
@@ -14,11 +11,12 @@ public class Main {
         System.out.println("Usage: java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>"); 
         System.out.println("<M> x <N> is the dimension of puzzle to create.");
         System.out.println("<MOVES> is the number of moves used to randomize the puzzle.");
-        System.out.println("<PLAYER> is one of -h, -n, -o, -m:");
+        System.out.println("<PLAYER> is one of -h, -n, -o, -m, -i:");
         System.out.println("\t-h to play manually");
-        System.out.println("\t-n to use naive BFS");
+        System.out.println("\t-b to use naive breadth-first search");
         System.out.println("\t-o to use A* search with the out-of-place heuristic (see readme)");
         System.out.println("\t-m to use A* search with the Manhattan distance heuristic (see readme)");
+        System.out.println("\t-i to use iterative depth-first search");
         System.out.println("<AVG> is one of the following:");
         System.out.println("\t0 to do a step-by-step solve, with pretty-printing");
         System.out.println("\tn to average the solving time taken over n trials");
@@ -48,7 +46,7 @@ public class Main {
             case "-h": 
                 player = PlayerFactory.getHuman(p);
                 break;
-            case "-n":
+            case "-b":
                 player = PlayerFactory.getNaive(p);
                 break;
             case "-o":
@@ -56,6 +54,9 @@ public class Main {
                 break;
             case "-m":
                 player = PlayerFactory.getManhattan(p);
+                break;
+            case "-i":
+                player = PlayerFactory.getIDS(p);
                 break;
             default:
                 usage();
