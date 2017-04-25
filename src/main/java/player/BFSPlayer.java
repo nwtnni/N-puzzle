@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 
 import puzzle.AbstractPuzzle;
+import heuristic.Heuristic;
 
 import util.PuzzleNode;
 

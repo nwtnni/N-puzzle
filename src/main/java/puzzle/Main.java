@@ -1,8 +1,9 @@
 package puzzle;
 
+import heuristic.Manhattan;
+
 import player.AbstractPlayer;
 import player.BFSPlayer;
-import player.OutOfPlace;
 
 public class Main {
 
@@ -31,7 +32,7 @@ public class Main {
         System.out.println("Running BFSPlayer...");
         System.out.println(p);
 
-        AbstractPlayer player = new BFSPlayer(p, new OutOfPlace());
+        AbstractPlayer player = new BFSPlayer(p, new Manhattan());
 
         while (!p.solved()) {
             player.step(); 

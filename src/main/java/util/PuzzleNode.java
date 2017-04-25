@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import puzzle.AbstractPuzzle;
+import puzzle.Point;
 
 /*
  * Tree node wrapper class for AbstractPuzzle.
@@ -36,6 +37,14 @@ public class PuzzleNode implements Evaluable {
         }
     
         return moves.size();
+    }
+
+    /*
+     * Returns the location of the given tile, or null
+     * if the tile is invalid.
+     */
+    public Point find(int tile) {
+        return puzzle.find(tile);
     }
 
     /*

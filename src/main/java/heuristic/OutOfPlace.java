@@ -1,4 +1,4 @@
-package player;
+package heuristic;
 
 import util.PuzzleNode;
 
@@ -21,6 +21,6 @@ public class OutOfPlace extends Heuristic {
                 }
             }
         }
-        return counter;
+        return counter + node.getDepth();
     }
 }

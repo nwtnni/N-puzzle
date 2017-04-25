@@ -1,4 +1,4 @@
-package player;
+package heuristic;
 
 import util.PuzzleNode;
 
