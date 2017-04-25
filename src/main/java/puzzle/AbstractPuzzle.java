@@ -41,6 +41,13 @@ public abstract class AbstractPuzzle {
     public abstract Integer get(int x, int y);
 
     /*
+     * Returns this puzzle's m x n size as an array {m, n}.
+     */
+    public int[] size() {
+        return new int[] {m, n};
+    }
+
+    /*
      * Returns a copy of this puzzle.
      */
     public abstract AbstractPuzzle copy();

@@ -109,6 +109,14 @@ public class ArrayPuzzle extends AbstractPuzzle {
     }
 
     @Override
+    public Integer get(int x, int y) {
+        if (0 <= y && y < m && 0 <= x && x < n) {
+            return grid[y][x];
+        }
+        return null;
+    }
+
+    @Override
     public boolean solved() {
         for (int y = 0, i = 0; y < m; y++) {
             for (int x = 0; x < n && i < n * m - 1; x++) {
@@ -120,6 +128,7 @@ public class ArrayPuzzle extends AbstractPuzzle {
         return true;
     }
 
+    @Override
     public ArrayPuzzle copy() {
         ArrayPuzzle ap = new ArrayPuzzle(m, n);
         for (int y = 0; y < m; y++) {
