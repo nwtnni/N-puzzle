@@ -38,6 +38,12 @@ public abstract class AbstractPuzzle {
      * if invalid position.
      */
     public abstract Integer get(Point p);
+    public abstract Integer get(int x, int y);
+
+    /*
+     * Returns a copy of this puzzle.
+     */
+    public abstract AbstractPuzzle copy();
 
     /*
      * Returns true if solved.

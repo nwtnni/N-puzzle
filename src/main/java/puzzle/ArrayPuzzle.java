@@ -1,6 +1,7 @@
 package puzzle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -119,6 +120,45 @@ public class ArrayPuzzle extends AbstractPuzzle {
         return true;
     }
 
+    public ArrayPuzzle copy() {
+        ArrayPuzzle ap = new ArrayPuzzle(m, n);
+        for (int y = 0; y < m; y++) {
+            ap.grid[y] = Arrays.copyOf(grid[y], n);
+        }
+        return ap;
+    }
+
+    // Only checks that grid values are the same
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ArrayPuzzle) {
+            ArrayPuzzle ap = (ArrayPuzzle) o;
+            if (ap.m != m || ap.n != n) {
+                return false; 
+            } else {
+                for (int y = 0; y < m; y++) {
+                    for (int x = 0; x < n; x++)  {
+                        if (ap.grid[y][x] != grid[y][x]) {
+                            return false; 
+                        }
+                    }
+                }
+                return true;
+            }
+        } else {
+            return false;  
+        }
+    }
+
+    @Override 
+    public int hashCode() {
+        int hash = 0;
+        for (int x = 0; x < n; x++) {
+            hash += grid[0][x];
+        }
+        return hash;
+    }
+
     @Override
     public String toString() {
 
@@ -127,14 +167,14 @@ public class ArrayPuzzle extends AbstractPuzzle {
         // Horizontal border
         StringBuilder hborder = new StringBuilder();
         for (int i = 0; i < 6 * n + 1; i++) {
-           hborder.append("-");
+            hborder.append("-");
         }
         hborder.append("\n");
 
         // Horizontal spacer
         StringBuilder hspacer = new StringBuilder();
         for (int i = 0; i < n; i++) {
-           hspacer.append("|     ");
+            hspacer.append("|     ");
         }
         hspacer.append("|\n");
 
