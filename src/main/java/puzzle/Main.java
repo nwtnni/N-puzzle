@@ -1,6 +1,7 @@
 package puzzle;
 
-import java.util.Scanner;
+import player.AbstractPlayer;
+import player.Human;
 
 public class Main {
 
@@ -23,35 +24,9 @@ public class Main {
 
         AbstractPuzzle p = new ArrayPuzzle(m, n);
         p.randomize();
-        Scanner s = new Scanner(System.in);
-        System.out.println("Enter the tile to move, or 'quit' to quit.\n"); 
 
-        while (true) {
-
-            System.out.println(p);
-
-            if (p.solved()) {
-                System.out.println("You win!"); 
-                return;
-            }
-
-            String input = s.next();
-
-            try {
-                int i = Integer.parseInt(input);
-                if (!p.move(i)) {
-                    System.out.println("Invalid move. Enter 'quit' to quit.\n"); 
-                } else {
-                    System.out.print("\n"); 
-                }
-            } catch(Exception e){
-                if (input.equals("quit")) {
-                    break;
-                }
-                System.out.println("Invalid move. Enter 'quit' to quit.\n"); 
-            }
-        }
-        s.close();
+        AbstractPlayer player = new Human(p);
+        player.solve();
     }
 
 }
