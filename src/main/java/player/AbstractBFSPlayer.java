@@ -24,6 +24,7 @@ public abstract class AbstractBFSPlayer extends AbstractPlayer {
     public AbstractBFSPlayer(AbstractPuzzle puzzle) {
         super(puzzle);
         root = new PuzzleNode(puzzle, 0);
+        moves = new ArrayDeque<Integer>();
     }
 
     @Override
@@ -48,13 +49,12 @@ public abstract class AbstractBFSPlayer extends AbstractPlayer {
         HashSet<PuzzleNode> found = new HashSet<PuzzleNode>();
         PriorityQueue<PuzzleNode> q = new PriorityQueue<PuzzleNode>(heuristic);
         HashMap<PuzzleNode, PuzzleNode> retrace = new HashMap<PuzzleNode, PuzzleNode>();
-        moves = new ArrayDeque<Integer>();
 
         q.add(root);
 
         while (!q.isEmpty()) {
 
-            PuzzleNode n = q.poll();
+            PuzzleNode n = q.poll(); 
 
             // Keep searching
             if (!n.solved()) {
@@ -65,6 +65,7 @@ public abstract class AbstractBFSPlayer extends AbstractPlayer {
                     if (found.contains(next)) {
                         continue;
                     } else {
+                        found.add(next);
                         q.add(next);
                         retrace.put(next, n);
                     }

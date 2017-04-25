@@ -101,6 +101,15 @@ public class ArrayPuzzle extends AbstractPuzzle {
     }
 
     @Override
+    public Point find(int tile) {
+        if (0 <= tile && tile < n * m - 1) {
+            return location[tile];
+        }
+        return null; 
+    }
+
+
+    @Override
     public Integer get(Point p) {
         if (0 <= p.y && p.y < m && 0 <= p.x && p.x < n) {
             return grid[p.y][p.x];
@@ -128,11 +137,19 @@ public class ArrayPuzzle extends AbstractPuzzle {
         return true;
     }
 
+    // Deep copy
     @Override
     public ArrayPuzzle copy() {
         ArrayPuzzle ap = new ArrayPuzzle(m, n);
+
+        ap.blank = new Point(blank);
+
         for (int y = 0; y < m; y++) {
             ap.grid[y] = Arrays.copyOf(grid[y], n);
+        }
+
+        for (int i = 0; i < n * m - 1; i++) {
+            ap.location[i] = new Point(location[i]);
         }
         return ap;
     }
@@ -145,7 +162,7 @@ public class ArrayPuzzle extends AbstractPuzzle {
 
         int move = prev.get(blank.x, blank.y);
         
-        if (grid[blank.y][blank.x] != move) {
+        if (!prev.find(move).equals(blank)) {
             return null; 
         } else {
             return move;

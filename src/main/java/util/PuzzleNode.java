@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import puzzle.AbstractPuzzle;
@@ -22,6 +23,7 @@ public class PuzzleNode implements Evaluable {
      */
     public int generate() {
 
+        next = new ArrayList<PuzzleNode>();
         List<Integer> moves = puzzle.validMoves();
 
         for (Integer tile : moves) {
@@ -67,7 +69,26 @@ public class PuzzleNode implements Evaluable {
      * Visitor design pattern.
      */
     @Override
-    public void accept(Evaluator e) {
-        e.evaluate(this);
+    public int accept(Evaluator e) {
+        return e.evaluate(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof PuzzleNode)) {
+            return false; 
+        }
+
+        return puzzle.equals(((PuzzleNode) o).puzzle);
+    }
+
+    @Override
+    public int hashCode() {
+        return puzzle.hashCode(); 
+    }
+
+    @Override
+    public String toString() {
+        return puzzle.toString(); 
     }
 }

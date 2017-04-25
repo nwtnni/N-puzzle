@@ -34,6 +34,11 @@ public abstract class AbstractPuzzle {
     public abstract List<Integer> validMoves();
 
     /*
+     * Returns the given tile's location, or null if invalid tile.
+     */
+    public abstract Point find(int tile);
+
+    /*
      * Returns the tile at the given location, or null
      * if invalid position.
      */

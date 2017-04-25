@@ -17,6 +17,11 @@ public class Point {
         this.y = y;
     }
 
+    public Point(Point p) {
+        x = p.x;
+        y = p.y;
+    }
+
     /*
      * Checks if the given point is adjacent to this one.
      *
@@ -27,5 +32,21 @@ public class Point {
         int dx = Math.abs(p.x - x);
         int dy = Math.abs(p.y - y);
         return (dx + dy == 1);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Point)) {
+            return false; 
+        }
+
+        Point p = (Point) o;
+
+        return (p.x == x && p.y == y);
+    }
+
+    @Override
+    public int hashCode() {
+        return x * y; 
     }
 }
