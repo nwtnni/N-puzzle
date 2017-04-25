@@ -46,4 +46,11 @@ public class PlayerFactory {
     public static AbstractPlayer getIDS(AbstractPuzzle ap) {
         return new IDSPlayer(ap);
     }
+
+    /*
+     * Returns a RandomPlayer.
+     */
+    public static AbstractPlayer getRandom(AbstractPuzzle ap) {
+        return new RandomPlayer(ap);
+    }
 }

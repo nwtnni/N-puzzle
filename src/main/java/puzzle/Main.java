@@ -58,6 +58,9 @@ public class Main {
             case "-i":
                 player = PlayerFactory.getIDS(p);
                 break;
+            case "-r":
+                player = PlayerFactory.getRandom(p);
+                break;
             default:
                 usage();
                 return;

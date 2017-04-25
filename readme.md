@@ -20,11 +20,12 @@ java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>
 **\<MOVES\>** is the number of moves used to randomize the puzzle
 
 **\<PLAYER\>** is one of -h, -n, -o, -m, -i:
-* \-h to play manually
 * \-b to use naive breadth-first search
-* \-o to use A\* search with the out-of-place heuristic
+* \-h to play manually
+* \-i to use iterative depth-first search
 * \-m to use A\* search with the Manhattan distance heuristic
-* \-i to use iterative depth-first searc
+* \-o to use A\* search with the out-of-place heuristic
+* \-r to play randomly
 
 **\<AVG\>** is one of the following
 * 0 to do a step-by-step solve, with pretty-printing
