@@ -11,6 +11,9 @@ running time. Board state is drawn in ASCII art.
 
 ## Usage
 
+The jar file can be built with `gradle build`, or you can find it in the `build/libs`
+directory.
+
 ```
 java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>
 ```
