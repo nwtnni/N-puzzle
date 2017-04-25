@@ -19,7 +19,7 @@ java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>
 
 **\<MOVES\>** is the number of moves used to randomize the puzzle
 
-**\<PLAYER\>** is one of -h, -n, -o, -m, -i:
+**\<PLAYER\>** is one of -b, -h, -i, -m, -o, -r:
 * \-b to use naive breadth-first search
 * \-h to play manually
 * \-i to use iterative depth-first search
