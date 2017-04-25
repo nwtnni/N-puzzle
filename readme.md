@@ -91,7 +91,8 @@ Inspiration drawn from *Artificial Intelligence: A Modern Approach* by Russell a
 ## Disclaimer
 
 This code was written in one day for fun, and is nowhere near optimized.
-Realistically, 5x5 is probably the largest board any of these can handle.
+Realistically, 3x3 (or 4x4 without much randomization) 
+is probably the largest board any of these can handle.
 
 ## Example Solution
 
