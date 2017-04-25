@@ -25,4 +25,9 @@ public abstract class AbstractPlayer {
      * Takes one step toward solving the puzzle.
      */
     public abstract void step();
+
+    @Override
+    public String toString() {
+        return puzzle.toString(); 
+    }
 } 

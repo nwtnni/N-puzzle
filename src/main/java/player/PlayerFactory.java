@@ -1,5 +1,9 @@
 package player;
 
+import heuristic.*;
+
+import puzzle.AbstractPuzzle;
+
 /*
  * Class for generating players.
  */
@@ -8,7 +12,7 @@ public class PlayerFactory {
     /*
      * Returns a HumanPlayer.
      */
-    public static AbstractPlayer getHumanPlayer(AbstractPuzzle ap) {
+    public static AbstractPlayer getHuman(AbstractPuzzle ap) {
         return new HumanPlayer(ap); 
     }
 
