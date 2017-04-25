@@ -137,26 +137,42 @@ public class ArrayPuzzle extends AbstractPuzzle {
         return ap;
     }
 
+    @Override
+    public Integer diff(AbstractPuzzle prev) {
+        if (prev.m != m || prev.n != n) {
+            return null;
+        } 
+
+        int move = prev.get(blank.x, blank.y);
+        
+        if (grid[blank.y][blank.x] != move) {
+            return null; 
+        } else {
+            return move;
+        }
+    }
+
     // Only checks that grid values are the same
     @Override
     public boolean equals(Object o) {
-        if (o instanceof ArrayPuzzle) {
-            ArrayPuzzle ap = (ArrayPuzzle) o;
-            if (ap.m != m || ap.n != n) {
-                return false; 
-            } else {
-                for (int y = 0; y < m; y++) {
-                    for (int x = 0; x < n; x++)  {
-                        if (ap.grid[y][x] != grid[y][x]) {
-                            return false; 
-                        }
-                    }
-                }
-                return true;
-            }
-        } else {
-            return false;  
+        if (!(o instanceof ArrayPuzzle)) {
+            return false;
         }
+
+        ArrayPuzzle ap = (ArrayPuzzle) o;
+        if (ap.m != m || ap.n != n) {
+            return false; 
+        } 
+            
+        for (int y = 0; y < m; y++) {
+            for (int x = 0; x < n; x++)  {
+                if (ap.grid[y][x] != grid[y][x]) {
+                    return false; 
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override 

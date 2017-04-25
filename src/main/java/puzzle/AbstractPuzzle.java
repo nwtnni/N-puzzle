@@ -41,16 +41,24 @@ public abstract class AbstractPuzzle {
     public abstract Integer get(int x, int y);
 
     /*
+     * Returns a copy of this puzzle.
+     */
+    public abstract AbstractPuzzle copy();
+
+    /*
+     * Returns the single move necessary to transform
+     * prev into this puzzle. If more than one move is
+     * necessary, or if the puzzles are different sizes,
+     * returns null.
+     */
+    public abstract Integer diff(AbstractPuzzle prev);
+    
+    /*
      * Returns this puzzle's m x n size as an array {m, n}.
      */
     public int[] size() {
         return new int[] {m, n};
     }
-
-    /*
-     * Returns a copy of this puzzle.
-     */
-    public abstract AbstractPuzzle copy();
 
     /*
      * Returns true if solved.

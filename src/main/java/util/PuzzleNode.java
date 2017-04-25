@@ -41,9 +41,33 @@ public class PuzzleNode implements Evaluable {
     }
 
     /*
+     * Returns a list of this node's children.
+     */
+    public List<PuzzleNode> getChildren() {
+        return next; 
+    }
+
+    /*
+     * Returns true if the associated puzzle is solved,
+     * or false otherwise.
+     */
+    public boolean solved() {
+        return puzzle.solved();
+    }
+
+    /*
+     * Returns the necessary move to get from prev to
+     * this puzzle state.
+     */
+    public Integer diff(PuzzleNode prev) {
+        return puzzle.diff(prev.puzzle);
+    }
+
+    /*
      * Visitor design pattern.
      */
+    @Override
     public void accept(Evaluator e) {
-        e.visit(this);
+        e.evaluate(this);
     }
 }
