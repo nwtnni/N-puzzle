@@ -5,6 +5,9 @@ import java.util.List;
 
 import puzzle.AbstractPuzzle;
 
+/*
+ * Tree node wrapper class for AbstractPuzzle.
+ */
 public class PuzzleNode implements Evaluable {
 
     private AbstractPuzzle puzzle;
@@ -36,6 +39,14 @@ public class PuzzleNode implements Evaluable {
     }
 
     /*
+     * Returns the tile at the given position, or null
+     * if the position is invalid.
+     */
+    public Integer get(int x, int y) {
+        return puzzle.get(x ,y);
+    }
+
+    /*
      * Returns the depth of this node.
      */
     public int getDepth() {
@@ -63,6 +74,13 @@ public class PuzzleNode implements Evaluable {
      */
     public Integer diff(PuzzleNode prev) {
         return puzzle.diff(prev.puzzle);
+    }
+
+    /*
+     * Returns the size of the associated puzzle.
+     */
+    public int[] size() {
+        return puzzle.size();
     }
 
     /*

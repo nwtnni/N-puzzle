@@ -12,11 +12,11 @@ import puzzle.AbstractPuzzle;
  * Be forwarned: this is a relatively clumsy solution, and 
  * the player may or may not actually solve the puzzle.
  */
-public class Human extends AbstractPlayer {
+public class HumanPlayer extends AbstractPlayer {
 
     Scanner s;
 
-    public Human(AbstractPuzzle ap) {
+    public HumanPlayer(AbstractPuzzle ap) {
         super(ap);
         s = new Scanner(System.in);
     }

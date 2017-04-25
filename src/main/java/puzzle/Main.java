@@ -2,6 +2,7 @@ package puzzle;
 
 import player.AbstractPlayer;
 import player.BFSPlayer;
+import player.OutOfPlace;
 
 public class Main {
 
@@ -30,7 +31,7 @@ public class Main {
         System.out.println("Running BFSPlayer...");
         System.out.println(p);
 
-        AbstractPlayer player = new BFSPlayer(p);
+        AbstractPlayer player = new BFSPlayer(p, new OutOfPlace());
 
         while (!p.solved()) {
             player.step(); 

@@ -32,9 +32,9 @@ public class ArrayPuzzle extends AbstractPuzzle {
 
         // Initialize grid
         for (int y = 0, i = 0; y < m; y++) {
-            for (int x = 0; x < n && i < n * m - 1; x++) {
+            for (int x = 0; x < n && i < n * m - 1; x++, i++) {
                 grid[y][x] = i;
-                location[i++] = new Point(x, y);
+                location[i] = new Point(x, y);
             }
         }
     }
