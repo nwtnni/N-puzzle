@@ -1,0 +1,7 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+m	/home/nni/Dropbox/School/CS/Projects/N-puzzle/src/main/java/puzzle/Puzzle.java	/^    protected int m;$/;"	f	language:Java	class:Puzzle
+move	/home/nni/Dropbox/School/CS/Projects/N-puzzle/src/main/java/puzzle/Puzzle.java	/^    public boolean move(int i);$/;"	m	language:Java	class:Puzzle
+n	/home/nni/Dropbox/School/CS/Projects/N-puzzle/src/main/java/puzzle/Puzzle.java	/^    protected int n;$/;"	f	language:Java	class:Puzzle
+puzzle	/home/nni/Dropbox/School/CS/Projects/N-puzzle/src/main/java/puzzle/Puzzle.java	/^package puzzle;$/;"	p	language:Java
+Puzzle	/home/nni/Dropbox/School/CS/Projects/N-puzzle/src/main/java/puzzle/Puzzle.java	/^public abstract class Puzzle {$/;"	c	language:Java
+randomize	/home/nni/Dropbox/School/CS/Projects/N-puzzle/src/main/java/puzzle/Puzzle.java	/^    public void randomize();$/;"	m	language:Java	class:Puzzle
