@@ -15,15 +15,18 @@ running time. Board state is drawn in ASCII art.
 java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>
 ```
 
-**<M>** x **<N>** is the dimension of puzzle to create (standard matrix conventions)
-**<MOVES>** is the number of moves used to randomize the puzzle
-**<PLAYER>** is one of -h, -n, -o, -m, -i:
+**\<M\>** x **\<N\>** is the dimension of puzzle to create (standard matrix conventions)
+
+**\<MOVES\>** is the number of moves used to randomize the puzzle
+
+**\<PLAYER\>** is one of -h, -n, -o, -m, -i:
 * \-h to play manually
 * \-b to use naive breadth-first search
 * \-o to use A\* search with the out-of-place heuristic
 * \-m to use A\* search with the Manhattan distance heuristic
 * \-i to use iterative depth-first searc
-**<AVG>** is one of the following
+
+**\<AVG\>** is one of the following
 * 0 to do a step-by-step solve, with pretty-printing
 * n to average the solving time taken over n trials
 
@@ -88,7 +91,7 @@ Realistically, 5x5 is probably the largest board any of these can handle.
 
 ## Example Solution
 
-Here's an example of the output of `java -jar N-puzzle.jar 5 5 100`:
+Here's the output of `java -jar N-puzzle.jar 5 5 100 -m 0`:
 
 ```
 -------------------------
