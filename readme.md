@@ -96,7 +96,7 @@ is probably the largest board any of these can handle.
 
 ## Example Solution
 
-Here's the output of `java -jar N-puzzle.jar 5 5 100 -m 0`:
+Here's the output of `java -jar N-puzzle.jar 4 4 100 -m 0`:
 
 ```
 -------------------------
