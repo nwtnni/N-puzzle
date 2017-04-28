@@ -22,15 +22,17 @@ java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG> <RATE>
 
 **\<MOVES\>** is the number of moves used to randomize the puzzle
 
-**\<PLAYER\>** is one of -b, -h, -i, -mb, -mi, -ob, -oi, -r:
+**\<PLAYER\>** is one of -b, -h, -i, -mi, -mb, -fmb, -li, -lb, -flb, -ob, -oi, -r:
 * \-b to use naive breadth-first search
 * \-h to play manually
-* \-i to use naive iterative depth-first search
-* \-lb to use A\* search with the Manhattan distance plus linear conflict heuristic
-* \-li to use IDA\* search with the Manhattan distance plus linear conflict heuristic
-* \-mb to use A\* search with the Manhattan distance heuristic
+* \-i to use naive iterative deeping A\* search
 * \-mi to use IDA\* search with the Manhattan distance heuristic
-* \-ob to use A\* search with the out-of-place heuristic
+* \-ma to use A\* search with the Manhattan distance heuristic
+* \-fma to use a non-optimal, fast search with the Manhattan distance plus linear conflict heuristic
+* \-li to use IDA\* search with the Manhattan distance plus linear conflict heuristic
+* \-la to use A\* search with the Manhattan distance plus linear conflict heuristic
+* \-fla to use a non-optimal, fast search with the Manhattan distance plus linear conflict heuristic
+* \-oa to use A\* search with the out-of-place heuristic
 * \-oi to use IDA\* search with the out-of-place distance heuristic
 * \-r to play randomly
 
@@ -66,30 +68,75 @@ Considers all possible solutions that take 0 turns, then 1 turn, then 2, and so 
 Due to exponential growth of the search space, this algorithm is pretty inefficient
 for this problem--even when ignoring board states that we've already seen.
 
-### Iterative Depth-first Search
-
-Standard [iterative depth-first search](https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search).
-A hybrid between breadth-first and depth-first search.
-
 ### A\* Search
 
 [A\* search](https://en.wikipedia.org/wiki/A*_search_algorithm) is an extension
 of [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) which
 takes into account extra knowledge of the graph. In this case, since every edge
 cost is one (it takes one turn to slide a block), Dijkstra's algorithm reduces
-to regular breadth-first search. We use heuristics to improve the performance:
+to regular breadth-first search. A\* improves performance by exploiting prior
+knowledge of the graph in the form of heuristics, some of which are explained below.
 
-#### Out Of Place 
+### Iterative Deepening Search
+
+[Iterative depth-first search](https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search),
+which is itself a hybrid between breadth-first and depth-first search. IDS combines the
+low memory footprint of DFS with the optimality of BFS, at the cost of re-running
+DFS potentially many times on already searched areas of the graph. IDS has the
+same asymptotic running time, but in practice will probably be slower for smaller inputs.
+
+### Iterative Deepening A\*
+
+[IDA\*](https://en.wikipedia.org/wiki/Iterative_deepening_A*) 
+is a hybrid of IDS and A\* search that uses also uses heuristics to inform its choices.
+
+### Accidental
+
+The fast versions of Manhattan A\* and Linear Interference A\* were because I accidentally
+forgot to add the node's depth to its estimated cost. For reasons I am not entirely sure
+about yet, this improves the speed of the algorithms by orders of magnitude at the cost
+of returning non-optimal solutions.
+
+If optimality isn't a problem (i.e. you just want to see big puzzles solved quickly), then
+these perform surprisingly well.
+
+## Heuristics
+
+### Out Of Place 
 
 This heuristic counts how many tiles are out of their final position, and adds it
 to the depth of the node. Intuitively, arrangements with more shapes that are away
 from their final positions are probably less desirable.
 
-#### Manhattan Distance
+### Manhattan Distance
 
 This heuristic considers the distance between each tile and its final position, and
 adds it to the depth of the node. Since it also accounts for how far away each tile
 is, it results in better performance than the out of place heuristic.
+
+### Manhattan Distance with Linear Interference
+
+To improve upon the Manhattan distance, we account for interference between tiles.
+A more detailed explanation can be found in [this paper](https://academiccommons.columbia.edu/catalog/ac:141289).
+
+## Performance Benchmarks
+
+//TODO: Performance statistics
+
+In general, A\* outperforms all other variations, including IDA\*. The latter would
+probably be faster if everything were more optimized.
+
+The Manhattan Distance with Linear Interference is by far the best heuristic, but
+due to the high cost of my naive implementation, it takes much longer to process a
+node than just Manhattan Distance. So the performance improvement is much more
+noticeable on a harder puzzle, where the decrease in exponential node growth outweighs
+the extra cost of processing a single node.
+
+Overall, the fastest algorithm for solving a puzzle is -flb, or fast linear/Manhattan A\*,
+except it doesn't find an optimal solution.
+
+The fastest optimal solution is either -mb (Manhattan A\*) or -lb (linear/Manhatta A\*),
+depending on the difficulty of the input.
 
 ## Credits
 

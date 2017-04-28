@@ -16,11 +16,13 @@ public class Main {
         System.out.println("\t-b to use naive breadth-first search");
         System.out.println("\t-h to play manually");
         System.out.println("\t-i to use naive iterative depth-first search");
-        System.out.println("\t-mb to use A* search with the Manhattan distance heuristic (see readme)");
         System.out.println("\t-mi to use IDA* search with the Manhattan distance heuristic (see readme)");
-        System.out.println("\t-lb to use A* search with the Manhattan distance plus linear conflict heuristic (see readme)");
+        System.out.println("\t-ma to use A* search with the Manhattan distance heuristic (see readme)");
+        System.out.println("\t-fma to use A* search with the Manhattan distance heuristic (see readme)");
         System.out.println("\t-li to use IDA* search with the Manhattan distance plus linear conflict heuristic (see readme)");
-        System.out.println("\t-ob to use A* search with the out-of-place heuristic (see readme)");
+        System.out.println("\t-la to use A* search with the Manhattan distance plus linear conflict heuristic (see readme)");
+        System.out.println("\t-fla to use A* search with the Manhattan distance heuristic (see readme)");
+        System.out.println("\t-oa to use A* search with the out-of-place heuristic (see readme)");
         System.out.println("\t-oi to use IDA* search with the out-of-place heuristic (see readme)");
         System.out.println("\t-r to play randomly");
         System.out.println("<AVG> is one of the following:");
@@ -61,19 +63,19 @@ public class Main {
             case "-b":
                 player = PlayerFactory.getNaiveBFS(p);
                 break;
-            case "-lb":
+            case "-la":
                 player = PlayerFactory.getManhattanConflictBFS(p);
                 break;
-            case "-flb":
+            case "-fla":
                 player = PlayerFactory.getFastManhattanConflictBFS(p);
                 break;
-            case "-ob":
+            case "-oa":
                 player = PlayerFactory.getOutOfPlaceBFS(p);
                 break;
-            case "-mb":
+            case "-ma":
                 player = PlayerFactory.getManhattanBFS(p);
                 break;
-            case "-fmb":
+            case "-fma":
                 player = PlayerFactory.getFastManhattanBFS(p);
                 break;
             case "-i":
