@@ -11,62 +11,42 @@ public abstract class AbstractPuzzle {
     protected int n;
 
     /*
-     * Randomizes this puzzle to a solvable configuration.
-     */
-    public abstract void randomize();
-
-    /*
      * Randomizes this puzzle to a solvable configuration
      * in the given number of moves.
      */
     public abstract void randomize(int moves);
 
     /*
-     * Moves the given tile.
-     *
-     * @return True if successful; false if invalid move.
+     * Moves this AbstractPuzzle in place. Returns true
+     * if successful, or false otherwise.
      */
-    public abstract boolean move(int i);
+    public abstract boolean inPlaceMove(Move m);
 
     /*
-     * Returns a list of this board's current valid moves.
+     * Returns a new AbstractPuzzle that is the result
+     * of moving the given tile, or null if the operation
+     * was invalid.
      */
-    public abstract List<Integer> validMoves();
+    public abstract AbstractPuzzle move(Move m);
 
     /*
-     * Returns the given tile's location, or null if invalid tile.
+     * Returns an array of this board's current valid moves.
      */
-    public abstract Point find(int tile);
-
-    /*
-     * Returns the tile at the given location, or null
-     * if invalid position.
-     */
-    public abstract Integer get(Point p);
-    public abstract Integer get(int x, int y);
-
-    /*
-     * Returns a copy of this puzzle.
-     */
-    public abstract AbstractPuzzle copy();
-
-    /*
-     * Returns the single move necessary to transform
-     * prev into this puzzle. If more than one move is
-     * necessary, or if the puzzles are different sizes,
-     * returns null.
-     */
-    public abstract Integer diff(AbstractPuzzle prev);
-    
-    /*
-     * Returns this puzzle's m x n size as an array {m, n}.
-     */
-    public int[] size() {
-        return new int[] {m, n};
-    }
+    public abstract List<Move> validMoves();
 
     /*
      * Returns true if solved.
      */
     public abstract boolean solved();
+
+    /*
+     * Returns this array's size as an array [m, n].
+     */
+    public abstract int[] size();
+
+    /*
+     * Returns the tile at (x, y), indexed from top-left.
+     * If tile doesn't exist, returns -1.
+     */
+    public abstract int get(int i, int j);
 }

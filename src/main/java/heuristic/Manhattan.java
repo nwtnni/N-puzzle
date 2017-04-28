@@ -1,7 +1,5 @@
 package heuristic;
 
-import puzzle.Point;
-
 import util.PuzzleNode;
 
 /*
@@ -10,20 +8,20 @@ import util.PuzzleNode;
 public class Manhattan extends Heuristic {
 
     @Override
-    public int evaluate(PuzzleNode node) {
+    public int evaluate(PuzzleNode n) {
 
-        int[] size = node.size();
         int counter = 0;
+        int[] size = n.size();
 
-        for (int y = 0, i = 0; y < size[1]; y++) {
-            for (int x = 0; x < size[0] && i < size[0] * size[1] - 1; x++, i++) {
-                Point actual = node.find(i);
-                counter += Math.abs(x - actual.x);
-                counter += Math.abs(y - actual.y);
+        for (int y = 0; y < size[0]; y++) {
+            for (int x = 0; x < size[1]; x++) {
+                int k = n.get(x, y);
+                counter += Math.abs(k % size[1] - x);
+                counter += Math.abs(k / size[1] - y);
             }
         }
 
-        return counter + node.getDepth();
+        return counter;
     }
 }
 

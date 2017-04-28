@@ -5,5 +5,5 @@ package util;
  * Visiting class evaluates the given puzzle node.
  */ 
 public interface Evaluator {
-    public int evaluate(PuzzleNode p);
+    public int evaluate(PuzzleNode n);
 }

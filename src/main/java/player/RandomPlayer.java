@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import puzzle.AbstractPuzzle;
+import puzzle.Move;
 
 /*
  * Represents a program that picks random moves.
@@ -26,8 +27,8 @@ public class RandomPlayer extends AbstractPlayer {
 
     @Override
     public void step() {
-        List<Integer> moves = puzzle.validMoves();
+        List<Move> moves = puzzle.validMoves();
         int tile = r.nextInt(moves.size());
-        puzzle.move(moves.get(tile));
+        puzzle.inPlaceMove(moves.get(tile));
     }
 }

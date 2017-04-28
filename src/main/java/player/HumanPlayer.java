@@ -3,6 +3,7 @@ package player;
 import java.util.Scanner;
 
 import puzzle.AbstractPuzzle;
+import puzzle.Move;
 
 /*
  * The human player queries System.in for each move, and
@@ -28,30 +29,11 @@ public class HumanPlayer extends AbstractPlayer {
         System.out.println("Enter the tile to move, or 'quit' to quit.\n"); 
 
         while (true) {
-
-            System.out.println(puzzle);
-
             if (puzzle.solved()) {
                 s.close();
                 return;
             }
-
-            String input = s.next();
-
-            try {
-                int i = Integer.parseInt(input);
-                if (!puzzle.move(i)) {
-                    System.out.println("Invalid move. Enter 'quit' to quit.\n"); 
-                } else {
-                    System.out.print("\n"); 
-                }
-            } catch(Exception e){
-                if (input.equals("quit")) {
-                    s.close();
-                    return;
-                }
-                System.out.println("Invalid move. Enter 'quit' to quit.\n"); 
-            }
+            step();
         }
     }
 
@@ -59,10 +41,29 @@ public class HumanPlayer extends AbstractPlayer {
     public void step() {
         while (true) {
             try {
-                int i = Integer.parseInt(s.next());
-                if (!puzzle.move(i)) {
+                Move m = null;
+                while (m == null) {
+                    switch (s.next()) {
+                        case "u": 
+                            m = Move.U;
+                            break;
+                        case "d":
+                            m = Move.D;
+                            break;
+                        case "l":
+                            m = Move.L;
+                            break;
+                        case "r":
+                            m = Move.R;
+                            break;
+                        default:
+                            System.out.println("Must be one of u, d, l, r");
+                    }
+                }
+                if (!puzzle.validMoves().contains(m)) {
                     System.out.println("Invalid move."); 
                 } else {
+                    puzzle.inPlaceMove(m);
                     System.out.print("\n"); 
                     return;
                 }

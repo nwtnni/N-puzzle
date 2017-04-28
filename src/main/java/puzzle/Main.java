@@ -74,9 +74,10 @@ public class Main {
 
             while (!p.solved()) {
                 player.step(); 
-                try {
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (Exception e) {
+                if (!args[3].equals("-p")) {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                    } catch (Exception e) {}
                 }
                 System.out.println(p);
             }

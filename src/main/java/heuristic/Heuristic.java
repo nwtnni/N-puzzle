@@ -18,6 +18,6 @@ public abstract class Heuristic implements Comparator<PuzzleNode>, Evaluator {
     }
 
     @Override
-    public abstract int evaluate(PuzzleNode node);
+    public abstract int evaluate(PuzzleNode n);
 
 }

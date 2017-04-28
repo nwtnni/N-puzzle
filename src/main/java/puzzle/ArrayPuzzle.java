@@ -10,166 +10,143 @@ import java.util.Random;
  */
 public class ArrayPuzzle extends AbstractPuzzle {
 
-    private int[][] grid;
-    private Point[] location;
-    private Point blank;
+    private int[] grid;
+    private int blank;
+    private int size;
 
-    /*
-     * Creates a new m x n sliding-tile puzzle
-     * in the solved configuration.
-     *
-     * Requires m, n > 1.
-     */
     public ArrayPuzzle(int m, int n) {
-
-        // Initialize fields
-        this.n = n;
         this.m = m;
-        grid = new int[m][n];
-        location = new Point[n * m - 1];
-        blank = new Point(n - 1, m - 1);
-        grid[blank.y][blank.x] = -1;
-
-        // Initialize grid
-        for (int y = 0, i = 0; y < m; y++) {
-            for (int x = 0; x < n && i < n * m - 1; x++, i++) {
-                grid[y][x] = i;
-                location[i] = new Point(x, y);
-            }
+        this.n = n;
+        size = m * n;
+        grid = new int[size];
+        for (int i = 0; i < size; i++) {
+            grid[i] = i;
         }
+        blank = size - 1;
+    }
+
+    public ArrayPuzzle(int m, int n, int[] grid, int blank) {
+        this.m = m;
+        this.n = n;
+        this.size = m * n;
+        this.grid = grid;
+        this.blank = blank;
     }
 
     @Override
-    public void randomize() {
-        Random r = new Random();
-        final int MAX_ITERATIONS = 1000;
-        randomize(r.nextInt(MAX_ITERATIONS));
+    public int get(int x, int y) {
+        return grid[y * n + x];
+    }
+
+    @Override
+    public int[] size() {
+        return new int[] {m, n};
     }
 
     @Override
     public void randomize(int moves) {
-
         Random r = new Random();
-
         for (int i = 0; i < moves; i++) {
-            List<Integer> next = validMoves();
-            move(next.get(r.nextInt(next.size())));
-        }
-    }
-
-    @Override
-    public boolean move(int i) {
-
-        // Invalid tile
-        if (i < 0 || i > n * m - 2) {
-            return false;
-        }
-
-        if (location[i].nextTo(blank)) {
-            // Swap grid items
-            grid[blank.y][blank.x] = i;
-            grid[location[i].y][location[i].x] = -1;
-
-            // Swap lookups
-            Point tmp = blank;
-            blank = location[i];
-            location[i] = tmp;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public List<Integer> validMoves() {
-        ArrayList<Integer> moves = new ArrayList<Integer>();
-
-        if (0 < blank.y) {
-            moves.add(grid[blank.y - 1][blank.x]);
+            List<Move> next = validMoves();
+            inPlaceMove(next.get(r.nextInt(next.size())));
         } 
-        if (blank.y < m - 1) {
-            moves.add(grid[blank.y + 1][blank.x]);
-        }
-        if (0 < blank.x) {
-            moves.add(grid[blank.y][blank.x - 1]);
+    }
+
+    @Override
+    public boolean inPlaceMove(Move mv) {
+        switch (mv) {
+            case D:
+                grid[blank] = grid[blank - n];
+                grid[blank - n] = size - 1;
+                blank -= n;
+                break;
+            case U: 
+                grid[blank] = grid[blank + n];
+                grid[blank + n] = size - 1;
+                blank += n;
+                break;
+            case L:
+                grid[blank] = grid[blank + 1];
+                grid[blank + 1] = size - 1;
+                blank += 1;
+                break;
+            case R:
+                grid[blank] = grid[blank - 1];
+                grid[blank - 1] = size - 1;
+                blank -= 1;
+                break;
+            default:
+                return false;
         } 
-        if (blank.x < n - 1) {
-            moves.add(grid[blank.y][blank.x + 1]);
-        }
-
-        return moves;
+        return true; 
     }
 
     @Override
-    public Point find(int tile) {
-        if (0 <= tile && tile < n * m - 1) {
-            return location[tile];
+    public ArrayPuzzle move(Move mv) {
+        try {
+
+            int[] newGrid = Arrays.copyOf(grid, grid.length);
+            int newBlank;
+
+            switch (mv) {
+                case D:
+                    newGrid[blank] = newGrid[blank - n];
+                    newGrid[blank - n] = size - 1;
+                    newBlank = blank - n;
+                    break;
+                case U: 
+                    newGrid[blank] = newGrid[blank + n];
+                    newGrid[blank + n] = size - 1;
+                    newBlank = blank + n;
+                    break;
+                case L:
+                    newGrid[blank] = newGrid[blank + 1];
+                    newGrid[blank + 1] = size - 1;
+                    newBlank = blank + 1;
+                    break;
+                case R:
+                    newGrid[blank] = newGrid[blank - 1];
+                    newGrid[blank - 1] = size - 1;
+                    newBlank = blank - 1;
+                    break;
+                default:
+                    return null;
+            } 
+
+            return new ArrayPuzzle(m, n, newGrid, newBlank);
+        } catch (Exception e) {
+            return null;
         }
-        return null; 
     }
 
-
     @Override
-    public Integer get(Point p) {
-        if (0 <= p.y && p.y < m && 0 <= p.x && p.x < n) {
-            return grid[p.y][p.x];
+    public List<Move> validMoves() {
+        ArrayList<Move> moves = new ArrayList<Move>();
+        if (blank < (m - 1) * n) {
+            moves.add(Move.U);
         }
-        return null;
-    }
-
-    @Override
-    public Integer get(int x, int y) {
-        if (0 <= y && y < m && 0 <= x && x < n) {
-            return grid[y][x];
+        if (blank >= n) {
+            moves.add(Move.D);
         }
-        return null;
+        if (blank % n > 0) {
+            moves.add(Move.R);
+        }
+        if (blank % n < n - 1) {
+            moves.add(Move.L);
+        }
+        return moves; 
     }
 
     @Override
     public boolean solved() {
-        for (int y = 0, i = 0; y < m; y++) {
-            for (int x = 0; x < n && i < n * m - 1; x++) {
-                if (grid[y][x] != i++) {
-                    return false; 
-                }
+        for (int i = 0; i < m * n; i++) {
+            if (grid[i] != i) {
+                return false;
             }
         }
         return true;
     }
 
-    // Deep copy
-    @Override
-    public ArrayPuzzle copy() {
-        ArrayPuzzle ap = new ArrayPuzzle(m, n);
-
-        ap.blank = new Point(blank);
-
-        for (int y = 0; y < m; y++) {
-            ap.grid[y] = Arrays.copyOf(grid[y], n);
-        }
-
-        for (int i = 0; i < n * m - 1; i++) {
-            ap.location[i] = new Point(location[i]);
-        }
-        return ap;
-    }
-
-    @Override
-    public Integer diff(AbstractPuzzle prev) {
-        if (prev.m != m || prev.n != n) {
-            return null;
-        } 
-
-        int move = prev.get(blank.x, blank.y);
-        
-        if (!prev.find(move).equals(blank)) {
-            return null; 
-        } else {
-            return move;
-        }
-    }
-
-    // Only checks that grid values are the same
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ArrayPuzzle)) {
@@ -177,28 +154,27 @@ public class ArrayPuzzle extends AbstractPuzzle {
         }
 
         ArrayPuzzle ap = (ArrayPuzzle) o;
+
         if (ap.m != m || ap.n != n) {
             return false; 
-        } 
-            
-        for (int y = 0; y < m; y++) {
-            for (int x = 0; x < n; x++)  {
-                if (ap.grid[y][x] != grid[y][x]) {
-                    return false; 
-                }
+        }
+
+        for (int i = 0; i < m * n; i++) {
+            if (grid[i] != ap.grid[i]) {
+                return false; 
             }
         }
 
         return true;
     }
 
-    @Override 
+    @Override
     public int hashCode() {
-        int hash = 0;
-        for (int x = 0; x < n; x++) {
-            hash += grid[0][x];
+        int sum = 0;
+        for (int i = 0; i < m * n; i++) {
+            sum += grid[i] * i;
         }
-        return hash;
+        return sum;
     }
 
     @Override
@@ -220,28 +196,31 @@ public class ArrayPuzzle extends AbstractPuzzle {
         }
         hspacer.append("|\n");
 
-        for (int y = 0; y < m; y++) {
+        for (int i = 0; i < m * n; i++) {
 
-            sb.append(hborder);
-            sb.append(hspacer);
-
-            for (int x = 0; x < n; x++) {
-                if (grid[y][x] == -1) {
-                    sb.append("|     ");
-                } else if (grid[y][x] < 10) {
-                    sb.append("|  " + grid[y][x] + "  ");
-                } else if (grid[y][x] < 100) {
-                    sb.append("|  " + grid[y][x] + " ");
-                } else {
-                    sb.append("| " + grid[y][x] + " ");
-                }
+            if (i % n == 0) {
+                sb.append(hborder);
+                sb.append(hspacer);
             }
 
-            sb.append("|\n");
-            sb.append(hspacer);
+            if (grid[i] == m * n - 1) {
+                sb.append("|     ");
+            } else if (grid[i] < 10) {
+                sb.append("|  " + grid[i] + "  ");
+            } else if (grid[i] < 100) {
+                sb.append("|  " + grid[i] + " ");
+            } else {
+                sb.append("| " + grid[i] + " ");
+            }
+
+            if (i % n == n - 1) {
+                sb.append("|\n");
+                sb.append(hspacer);
+            }
         }
 
         sb.append(hborder);
         return sb.toString();
     }
+
 }

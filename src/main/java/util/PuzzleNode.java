@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import puzzle.AbstractPuzzle;
-import puzzle.Point;
+import puzzle.Move;
 
 /*
  * Tree node wrapper class for AbstractPuzzle.
@@ -13,12 +13,14 @@ public class PuzzleNode implements Evaluable {
 
     private AbstractPuzzle puzzle;
     private int depth;
+    private Move prev;
 
     private List<PuzzleNode> next;
 
-    public PuzzleNode(AbstractPuzzle ap, int d) {
+    public PuzzleNode(AbstractPuzzle ap, int d, Move m) {
         puzzle = ap;
         depth = d; 
+        prev = m;
     }
 
     /*
@@ -28,68 +30,56 @@ public class PuzzleNode implements Evaluable {
     public int generate() {
 
         next = new ArrayList<PuzzleNode>();
-        List<Integer> moves = puzzle.validMoves();
+        List<Move> moves = puzzle.validMoves();
 
-        for (Integer tile : moves) {
-            AbstractPuzzle ap = puzzle.copy();
-            ap.move(tile);
-            next.add(new PuzzleNode(ap, depth + 1));
+        for (Move mv : moves) {
+            next.add(new PuzzleNode(puzzle.move(mv), depth + 1, mv));
         }
     
         return moves.size();
     }
 
     /*
-     * Returns the location of the given tile, or null
-     * if the tile is invalid.
-     */
-    public Point find(int tile) {
-        return puzzle.find(tile);
-    }
-
-    /*
-     * Returns the tile at the given position, or null
-     * if the position is invalid.
-     */
-    public Integer get(int x, int y) {
-        return puzzle.get(x ,y);
-    }
-
-    /*
      * Returns the depth of this node.
      */
-    public int getDepth() {
+    public int depth() {
         return depth; 
+    }
+
+    /*
+     * Returns the tile at (x, y), indexed from top-left.
+     */
+    public int get(int x, int y) {
+        return puzzle.get(x, y);
     }
 
     /*
      * Returns a list of this node's children.
      */
-    public List<PuzzleNode> getChildren() {
+    public List<PuzzleNode> children() {
         return next; 
     }
 
     /*
-     * Returns true if the associated puzzle is solved,
-     * or false otherwise.
+     * Returns the previous move that lead to this state.
+     */
+    public Move lastMove() {
+        return prev; 
+    }
+
+    /*
+     * Returns whether or not the associated puzzle is
+     * solved.
      */
     public boolean solved() {
-        return puzzle.solved();
+        return puzzle.solved(); 
     }
 
     /*
-     * Returns the necessary move to get from prev to
-     * this puzzle state.
-     */
-    public Integer diff(PuzzleNode prev) {
-        return puzzle.diff(prev.puzzle);
-    }
-
-    /*
-     * Returns the size of the associated puzzle.
+     * Returns the m, n size of this puzzle as an array.
      */
     public int[] size() {
-        return puzzle.size();
+        return puzzle.size(); 
     }
 
     /*
