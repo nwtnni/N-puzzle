@@ -1,5 +1,6 @@
 package player;
 
+import heuristic.Linear;
 import heuristic.Manhattan;
 import heuristic.Naive;
 import heuristic.OutOfPlace;
@@ -42,6 +43,14 @@ public class PlayerFactory {
     }
 
     /*
+     * Returns a player using A* search with the Manhattan distance
+     * plus linear conflicts heuristic.
+     */
+    public static AbstractPlayer getManhattanConflictBFS(AbstractPuzzle ap) {
+        return new BFSPlayer(ap, new Linear());
+    }
+
+    /*
      * Returns a player using naive iterative-deepening search.
      */
     public static AbstractPlayer getNaiveIDS(AbstractPuzzle ap) {
@@ -62,6 +71,14 @@ public class PlayerFactory {
      */
     public static AbstractPlayer getManhattanIDS(AbstractPuzzle ap) {
         return new IDSPlayer(ap, new Manhattan());
+    }
+
+    /*
+     * Returns a player using A* search with the Manhattan distance
+     * plus linear conflicts heuristic.
+     */
+    public static AbstractPlayer getManhattanConflictIDS(AbstractPuzzle ap) {
+        return new IDSPlayer(ap, new Linear());
     }
 
     /*

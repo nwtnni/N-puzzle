@@ -17,6 +17,8 @@ public class Main {
         System.out.println("\t-i to use naive iterative depth-first search");
         System.out.println("\t-mb to use A* search with the Manhattan distance heuristic (see readme)");
         System.out.println("\t-mi to use IDA* search with the Manhattan distance heuristic (see readme)");
+        System.out.println("\t-lb to use A* search with the Manhattan distance plus linear conflict heuristic (see readme)");
+        System.out.println("\t-li to use IDA* search with the Manhattan distance plus linear conflict heuristic (see readme)");
         System.out.println("\t-ob to use A* search with the out-of-place heuristic (see readme)");
         System.out.println("\t-oi to use IDA* search with the out-of-place heuristic (see readme)");
         System.out.println("\t-r to play randomly");
@@ -58,6 +60,9 @@ public class Main {
             case "-b":
                 player = PlayerFactory.getNaiveBFS(p);
                 break;
+            case "-lb":
+                player = PlayerFactory.getManhattanConflictBFS(p);
+                break;
             case "-ob":
                 player = PlayerFactory.getOutOfPlaceBFS(p);
                 break;
@@ -66,6 +71,9 @@ public class Main {
                 break;
             case "-i":
                 player = PlayerFactory.getNaiveIDS(p);
+                break;
+            case "-li":
+                player = PlayerFactory.getManhattanConflictIDS(p);
                 break;
             case "-mi":
                 player = PlayerFactory.getManhattanIDS(p);

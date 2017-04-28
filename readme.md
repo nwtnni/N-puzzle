@@ -26,6 +26,8 @@ java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG> <RATE>
 * \-b to use naive breadth-first search
 * \-h to play manually
 * \-i to use naive iterative depth-first search
+* \-lb to use A\* search with the Manhattan distance plus linear conflict heuristic
+* \-li to use IDA\* search with the Manhattan distance plus linear conflict heuristic
 * \-mb to use A\* search with the Manhattan distance heuristic
 * \-mi to use IDA\* search with the Manhattan distance heuristic
 * \-ob to use A\* search with the out-of-place heuristic
