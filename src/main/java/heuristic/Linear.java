@@ -11,6 +11,12 @@ import util.PuzzleNode;
  */
 public class Linear extends Heuristic {
 
+    private boolean opt;
+
+    public Linear(boolean optimal) {
+        opt = optimal;
+    }
+
     @Override
     public int evaluate(PuzzleNode n) {
 
@@ -43,7 +49,7 @@ public class Linear extends Heuristic {
             C.clear();
         }
 
-        return counter + n.depth();
+        return (opt) ? counter + n.depth() : counter;
     }
 
     private int conflict(List<Integer> line) {

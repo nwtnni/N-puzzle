@@ -2,6 +2,7 @@ package player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -18,9 +19,11 @@ import util.PuzzleNode;
  */
 public class BFSPlayer extends AbstractPlayer {
 
-    protected PuzzleNode root;
-    protected Heuristic h;
-    protected Deque<Move> moves;
+    private PuzzleNode root;
+    private Heuristic h;
+    private Deque<Move> moves;
+    private double explored;
+    private double max_depth;
 
     public BFSPlayer(AbstractPuzzle puzzle, Heuristic heuristic) {
         super(puzzle);
@@ -31,6 +34,8 @@ public class BFSPlayer extends AbstractPlayer {
 
     @Override
     public void solve() {
+        explored = 0;
+        max_depth = 0;
         getMoves();
         while (!moves.isEmpty()) {
             puzzle.inPlaceMove(moves.pop());
@@ -38,8 +43,18 @@ public class BFSPlayer extends AbstractPlayer {
     }
 
     @Override
+    public HashMap<String, Double> stats() {
+        HashMap<String, Double> stats = new HashMap<String, Double>(); 
+        stats.put("Total nodes explored: ", explored);
+        stats.put("Maximum depth:        ", max_depth);
+        return stats;
+    }
+
+    @Override
     public void step() {
         if (moves.isEmpty()) {
+            explored = 0;
+            max_depth = 0;
             getMoves();
         }
         puzzle.inPlaceMove(moves.pop());
@@ -54,6 +69,7 @@ public class BFSPlayer extends AbstractPlayer {
 
         while (!q.isEmpty()) {
             PuzzleNode n = q.poll(); 
+            explored++;
 
             // Keep searching
             if (!n.solved()) {
@@ -66,6 +82,7 @@ public class BFSPlayer extends AbstractPlayer {
             // Otherwise retrace steps
             } else {
                 PuzzleNode ptr = n;
+                max_depth = n.depth();
                 while (!ptr.equals(root)) {
                     moves.push(ptr.lastMove());
                     ptr = ptr.lastPuzzle();

@@ -1,5 +1,7 @@
 package player;
 
+import java.util.HashMap;
+
 import puzzle.AbstractPuzzle;
 
 /*
@@ -25,6 +27,11 @@ public abstract class AbstractPlayer {
      * Takes one step toward solving the puzzle.
      */
     public abstract void step();
+
+    /*
+     * Prints out any relevant statistics for this player.
+     */
+    public abstract HashMap<String, Double> stats();
 
     @Override
     public String toString() {

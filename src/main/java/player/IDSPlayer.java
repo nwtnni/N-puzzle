@@ -2,6 +2,7 @@ package player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
 
 import heuristic.Heuristic;
 
@@ -19,6 +20,8 @@ public class IDSPlayer extends AbstractPlayer {
     private PuzzleNode root;
     private Deque<Move> moves;
     private Heuristic heuristic;
+    private double explored;
+    private double max_depth;
 
     public IDSPlayer(AbstractPuzzle puzzle, Heuristic h) {
         super(puzzle);
@@ -29,6 +32,8 @@ public class IDSPlayer extends AbstractPlayer {
 
     @Override
     public void solve() {
+        explored = 0;
+        max_depth = 0;
         getMoves();
         while (!moves.isEmpty()) {
             puzzle.inPlaceMove(moves.pop());
@@ -38,15 +43,26 @@ public class IDSPlayer extends AbstractPlayer {
     @Override
     public void step() {
         if (moves.isEmpty()) {
+            explored = 0;
+            max_depth = 0;
             getMoves();
         }
         puzzle.inPlaceMove(moves.pop());
+    }
+
+    @Override
+    public HashMap<String, Double> stats() {
+        HashMap<String, Double> stats = new HashMap<String, Double>(); 
+        stats.put("Total nodes explored: ", explored);
+        stats.put("Maximum depth:        ", max_depth);
+        return stats;
     }
 
     // Helper method for IDS
     protected void getMoves() {
         int depth = 0;
         while (depth >= 0) {
+            max_depth = depth;
             depth = DFS(root, depth);
         }
         return;
@@ -55,6 +71,7 @@ public class IDSPlayer extends AbstractPlayer {
     // Depth-first search
     protected int DFS(PuzzleNode root, int maxDepth) {
 
+        explored++;
         int score = heuristic.evaluate(root);
         if (score > maxDepth) {
             return score; 

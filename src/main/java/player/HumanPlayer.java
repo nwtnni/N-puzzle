@@ -1,5 +1,6 @@
 package player;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 import puzzle.AbstractPuzzle;
@@ -71,5 +72,10 @@ public class HumanPlayer extends AbstractPlayer {
                 System.out.println("Invalid move."); 
             }
         }
+    }
+
+    @Override
+    public HashMap<String, Double> stats() {
+        return new HashMap<String, Double>(); 
     }
 }

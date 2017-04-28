@@ -39,7 +39,15 @@ public class PlayerFactory {
      * heuristic.
      */
     public static AbstractPlayer getManhattanBFS(AbstractPuzzle ap) {
-        return new BFSPlayer(ap, new Manhattan());
+        return new BFSPlayer(ap, new Manhattan(true));
+    }
+
+    /*
+     * Returns a player using A* search with the Manhattan distance
+     * heuristic.
+     */
+    public static AbstractPlayer getFastManhattanBFS(AbstractPuzzle ap) {
+        return new BFSPlayer(ap, new Manhattan(false));
     }
 
     /*
@@ -47,7 +55,15 @@ public class PlayerFactory {
      * plus linear conflicts heuristic.
      */
     public static AbstractPlayer getManhattanConflictBFS(AbstractPuzzle ap) {
-        return new BFSPlayer(ap, new Linear());
+        return new BFSPlayer(ap, new Linear(true));
+    }
+
+    /*
+     * Returns a player using A* search with the Manhattan distance
+     * plus linear conflicts heuristic.
+     */
+    public static AbstractPlayer getFastManhattanConflictBFS(AbstractPuzzle ap) {
+        return new BFSPlayer(ap, new Linear(false));
     }
 
     /*
@@ -70,7 +86,7 @@ public class PlayerFactory {
      * heuristic.
      */
     public static AbstractPlayer getManhattanIDS(AbstractPuzzle ap) {
-        return new IDSPlayer(ap, new Manhattan());
+        return new IDSPlayer(ap, new Manhattan(true));
     }
 
     /*
@@ -78,7 +94,7 @@ public class PlayerFactory {
      * plus linear conflicts heuristic.
      */
     public static AbstractPlayer getManhattanConflictIDS(AbstractPuzzle ap) {
-        return new IDSPlayer(ap, new Linear());
+        return new IDSPlayer(ap, new Linear(true));
     }
 
     /*

@@ -1,5 +1,6 @@
 package puzzle;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import player.AbstractPlayer;
@@ -63,11 +64,17 @@ public class Main {
             case "-lb":
                 player = PlayerFactory.getManhattanConflictBFS(p);
                 break;
+            case "-flb":
+                player = PlayerFactory.getFastManhattanConflictBFS(p);
+                break;
             case "-ob":
                 player = PlayerFactory.getOutOfPlaceBFS(p);
                 break;
             case "-mb":
                 player = PlayerFactory.getManhattanBFS(p);
+                break;
+            case "-fmb":
+                player = PlayerFactory.getFastManhattanBFS(p);
                 break;
             case "-i":
                 player = PlayerFactory.getNaiveIDS(p);
@@ -107,13 +114,25 @@ public class Main {
         } else {
 
             double total = 0;
+            HashMap<String, Double> stats = new HashMap<String, Double>();
 
             for (int i = 0; i < trials; i++) {
                 p.randomize(moves);
                 total += timedSolve(player); 
+                for (String key : player.stats().keySet()) {
+                    Double val = player.stats().get(key);
+                    if (stats.containsKey(key)) {
+                        stats.put(key, stats.get(key) + val);
+                    } else {
+                        stats.put(key, val);
+                    }
+                }
             }
 
             System.out.println("Average time: " + (total / 1e9 / trials) + " seconds" );
+            for (String key : stats.keySet()) {
+                System.out.println(key + stats.get(key) / trials); 
+            }
         }
     }
 

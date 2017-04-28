@@ -1,5 +1,6 @@
 package player;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +24,11 @@ public class RandomPlayer extends AbstractPlayer {
         while (!puzzle.solved()) {
             step(); 
         }
+    }
+
+    @Override
+    public HashMap<String, Double> stats() {
+        return new HashMap<String, Double>(); 
     }
 
     @Override

@@ -7,22 +7,29 @@ import util.PuzzleNode;
  */
 public class Manhattan extends Heuristic {
 
+    private boolean opt;
+
+    public Manhattan(boolean optimal) {
+        opt = optimal; 
+    }
+
     @Override
     public int evaluate(PuzzleNode n) {
 
         int counter = 0;
-        int[] size = n.size();
+        int M = n.size()[0];
+        int N = n.size()[1];
 
-        for (int y = 0; y < size[0]; y++) {
-            for (int x = 0; x < size[1]; x++) {
+        for (int y = 0; y < M; y++) {
+            for (int x = 0; x < N; x++) {
                 int k = n.get(x, y);
-                if (k == size[0] * size[1] - 1) continue;
-                counter += Math.abs(k % size[1] - x);
-                counter += Math.abs(k / size[1] - y);
+                if (k == M * N - 1) continue;
+                counter += Math.abs(k % N - x);
+                counter += Math.abs(k / N - y);
             }
         }
 
-        return counter + n.depth();
+        return (opt) ? counter + n.depth() : counter;
     }
 }
 
