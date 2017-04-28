@@ -2,7 +2,6 @@ package player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import puzzle.AbstractPuzzle;
@@ -21,7 +20,7 @@ public class IDSPlayer extends AbstractPlayer {
 
     public IDSPlayer(AbstractPuzzle puzzle) {
         super(puzzle);
-        root = new PuzzleNode(puzzle, 0, null);
+        root = new PuzzleNode(puzzle, 0, null, null);
         moves = new ArrayDeque<Move>();
     }
 
@@ -53,41 +52,28 @@ public class IDSPlayer extends AbstractPlayer {
 
         HashSet<PuzzleNode> found = new HashSet<PuzzleNode>();
         Deque<PuzzleNode> stack = new ArrayDeque<PuzzleNode>();
-        HashMap<PuzzleNode, PuzzleNode> retrace = new HashMap<PuzzleNode, PuzzleNode>();
-
         stack.push(root);
 
         while (!stack.isEmpty()) {
-
             PuzzleNode n = stack.pop(); 
+
+            if (n.depth() > maxDepth) continue;
 
             // Keep searching
             if (!n.solved()) {
-
-                if (n.depth() >= maxDepth) {
-                    continue;
-                } else {
-                    n.generate();
-                }
-
-                for (PuzzleNode next : n.children()) {
-                    if (found.contains(next)) {
-                        continue;
-                    } else {
+                for (PuzzleNode next : n.generate()) {
+                    if (!found.contains(next)) {
                         found.add(next);
                         stack.push(next);
-                        retrace.put(next, n);
                     }
                 }
             // Otherwise retrace steps
             } else {
                 PuzzleNode ptr = n;
                 while (!ptr.equals(root)) {
-                    PuzzleNode prev = retrace.get(ptr);
                     moves.push(ptr.lastMove());
-                    ptr = prev;
+                    ptr = ptr.lastPuzzle();
                 }
-
                 return true;
             }
         }

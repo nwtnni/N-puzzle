@@ -2,7 +2,6 @@ package player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -26,7 +25,7 @@ public class BFSPlayer extends AbstractPlayer {
     public BFSPlayer(AbstractPuzzle puzzle, Heuristic heuristic) {
         super(puzzle);
         h = heuristic;
-        root = new PuzzleNode(puzzle, 0, null);
+        root = new PuzzleNode(puzzle, 0, null, null);
         moves = new ArrayDeque<Move>();
     }
 
@@ -49,10 +48,8 @@ public class BFSPlayer extends AbstractPlayer {
     // Helper method for BFS
     protected void getMoves() {
 
-        HashSet<PuzzleNode> found = new HashSet<PuzzleNode>();
         PriorityQueue<PuzzleNode> q = new PriorityQueue<PuzzleNode>(h);
-        HashMap<PuzzleNode, PuzzleNode> retrace = new HashMap<PuzzleNode, PuzzleNode>();
-
+        HashSet<PuzzleNode> found = new HashSet<PuzzleNode>();
         q.add(root);
 
         while (!q.isEmpty()) {
@@ -61,29 +58,20 @@ public class BFSPlayer extends AbstractPlayer {
 
             // Keep searching
             if (!n.solved()) {
-
-                n.generate();
-
-                for (PuzzleNode next : n.children()) {
-                    if (found.contains(next)) {
-                        continue;
-                    } else {
+                for (PuzzleNode next : n.generate()) {
+                    if (!found.contains(next)) {
                         found.add(next);
                         q.add(next);
-                        retrace.put(next, n);
                     }
                 }
             // Otherwise retrace steps
             } else {
 
                 PuzzleNode ptr = n;
-
                 while (!ptr.equals(root)) {
-                    PuzzleNode prev = retrace.get(ptr);
                     moves.push(ptr.lastMove());
-                    ptr = prev;
+                    ptr = ptr.lastPuzzle();
                 }
-
                 return;
             }
         }

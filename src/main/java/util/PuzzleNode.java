@@ -14,29 +14,26 @@ public class PuzzleNode implements Evaluable {
     private AbstractPuzzle puzzle;
     private int depth;
     private Move prev;
+    private PuzzleNode prevPuzzle;
 
-    private List<PuzzleNode> next;
-
-    public PuzzleNode(AbstractPuzzle ap, int d, Move m) {
+    public PuzzleNode(AbstractPuzzle ap, int d, PuzzleNode p, Move m) {
         puzzle = ap;
         depth = d; 
         prev = m;
+        prevPuzzle = p;
     }
 
     /*
-     * Expands this node's children. Returns
-     * the number of children generated.
+     * Expands this node's children. Returns the all valid
+     * successors of the current puzzle state.
      */
-    public int generate() {
-
-        next = new ArrayList<PuzzleNode>();
+    public List<PuzzleNode> generate() {
+        List<PuzzleNode> next = new ArrayList<PuzzleNode>();
         List<Move> moves = puzzle.validMoves();
-
         for (Move mv : moves) {
-            next.add(new PuzzleNode(puzzle.move(mv), depth + 1, mv));
+            next.add(new PuzzleNode(puzzle.move(mv), depth + 1, this, mv));
         }
-    
-        return moves.size();
+        return next;
     }
 
     /*
@@ -54,17 +51,17 @@ public class PuzzleNode implements Evaluable {
     }
 
     /*
-     * Returns a list of this node's children.
-     */
-    public List<PuzzleNode> children() {
-        return next; 
-    }
-
-    /*
      * Returns the previous move that lead to this state.
      */
     public Move lastMove() {
         return prev; 
+    }
+    
+    /*
+     * Returns the previous puzzle state.
+     */
+    public PuzzleNode lastPuzzle() {
+        return prevPuzzle; 
     }
 
     /*
