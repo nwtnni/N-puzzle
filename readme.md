@@ -15,7 +15,7 @@ The jar file can be built with `gradle build`, or you can find it in the `build/
 directory.
 
 ```
-java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>
+java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG> <RATE>
 ```
 
 **\<M\>** x **\<N\>** is the dimension of puzzle to create (standard matrix conventions)
@@ -33,6 +33,9 @@ java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>
 **\<AVG\>** is one of the following
 * 0 to do a step-by-step solve, with pretty-printing
 * n to average the solving time taken over n trials
+
+**\<RATE\>** is the number of steps displayed per second. Only applies to
+automated solving, if **\<AVG\>** is equal to 0.
 
 ## Algorithms
 
@@ -91,7 +94,7 @@ Inspiration drawn from *Artificial Intelligence: A Modern Approach* by Russell a
 ## Disclaimer
 
 This code was written in one day for fun, and is nowhere near optimized.
-Realistically, 3x3 (or 4x4 without much randomization) 
+Realistically, 4x4 (or 5x5 without much randomization) 
 is probably the largest board any of these can handle.
 
 ## Example Solution

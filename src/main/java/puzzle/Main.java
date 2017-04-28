@@ -8,7 +8,7 @@ import player.PlayerFactory;
 public class Main {
 
     public static void usage() {
-        System.out.println("Usage: java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG>"); 
+        System.out.println("Usage: java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG> <RATE>"); 
         System.out.println("<M> x <N> is the dimension of puzzle to create.");
         System.out.println("<MOVES> is the number of moves used to randomize the puzzle.");
         System.out.println("<PLAYER> is one of :");
@@ -21,6 +21,8 @@ public class Main {
         System.out.println("<AVG> is one of the following:");
         System.out.println("\t0 to do a step-by-step solve, with pretty-printing");
         System.out.println("\tn to average the solving time taken over n trials");
+        System.out.println("<RATE> is the number of steps to display per second for automated solving.");
+        System.out.println("Only required if AVG = 0.");
     }
 
     public static void main (String[] args) {
@@ -29,12 +31,16 @@ public class Main {
         int n;
         int moves;
         int trials;
+        int rate = 1;
 
         try {
             m = Integer.parseInt(args[0]);
             n = Integer.parseInt(args[1]);
             moves = Integer.parseInt(args[2]);
             trials = Integer.parseInt(args[4]);
+            if (trials == 0) {
+                rate = Integer.parseInt(args[5]);
+            }
         } catch(Exception e){
             usage();
             return;
@@ -76,7 +82,7 @@ public class Main {
                 player.step(); 
                 if (!args[3].equals("-p")) {
                     try {
-                        TimeUnit.MILLISECONDS.sleep(1000);
+                        TimeUnit.MILLISECONDS.sleep(1000 / rate);
                     } catch (Exception e) {}
                 }
                 System.out.println(p);
