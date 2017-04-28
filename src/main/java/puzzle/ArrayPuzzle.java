@@ -54,86 +54,57 @@ public class ArrayPuzzle extends AbstractPuzzle {
 
     @Override
     public boolean inPlaceMove(Move mv) {
-        switch (mv) {
-            case D:
-                grid[blank] = grid[blank - n];
-                grid[blank - n] = size - 1;
-                blank -= n;
-                break;
-            case U: 
-                grid[blank] = grid[blank + n];
-                grid[blank + n] = size - 1;
-                blank += n;
-                break;
-            case L:
-                grid[blank] = grid[blank + 1];
-                grid[blank + 1] = size - 1;
-                blank += 1;
-                break;
-            case R:
-                grid[blank] = grid[blank - 1];
-                grid[blank - 1] = size - 1;
-                blank -= 1;
-                break;
-            default:
-                return false;
-        } 
-        return true; 
+        try {
+            int d = delta(mv);
+            grid[blank] = grid[blank + d];
+            grid[blank + d] = size - 1;
+            blank += d;
+            return true;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false; 
+        }
     }
 
     @Override
     public ArrayPuzzle move(Move mv) {
+        int[] newGrid = Arrays.copyOf(grid, grid.length);
+        int newBlank = blank;
         try {
-
-            int[] newGrid = Arrays.copyOf(grid, grid.length);
-            int newBlank;
-
-            switch (mv) {
-                case D:
-                    newGrid[blank] = newGrid[blank - n];
-                    newGrid[blank - n] = size - 1;
-                    newBlank = blank - n;
-                    break;
-                case U: 
-                    newGrid[blank] = newGrid[blank + n];
-                    newGrid[blank + n] = size - 1;
-                    newBlank = blank + n;
-                    break;
-                case L:
-                    newGrid[blank] = newGrid[blank + 1];
-                    newGrid[blank + 1] = size - 1;
-                    newBlank = blank + 1;
-                    break;
-                case R:
-                    newGrid[blank] = newGrid[blank - 1];
-                    newGrid[blank - 1] = size - 1;
-                    newBlank = blank - 1;
-                    break;
-                default:
-                    return null;
-            } 
-
+            int d = delta(mv);
+            newGrid[blank] = newGrid[blank + d];
+            newGrid[blank + d] = size - 1;
+            newBlank = blank + d;
             return new ArrayPuzzle(m, n, newGrid, newBlank);
-        } catch (Exception e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
+    }
+
+    /*
+     * Private helper method for decoding move instructions.
+     */
+    private int delta(Move mv) {
+        switch (mv) {
+            case D:
+                return -n;
+            case U: 
+                return +n;
+            case L:
+                return 1;
+            case R:
+                return -1;
+            default:
+                return 0;
+        } 
     }
 
     @Override
     public List<Move> validMoves() {
         ArrayList<Move> moves = new ArrayList<Move>();
-        if (blank < (m - 1) * n) {
-            moves.add(Move.U);
-        }
-        if (blank >= n) {
-            moves.add(Move.D);
-        }
-        if (blank % n > 0) {
-            moves.add(Move.R);
-        }
-        if (blank % n < n - 1) {
-            moves.add(Move.L);
-        }
+        if (blank < (m - 1) * n) moves.add(Move.U);
+        if (blank >= n) moves.add(Move.D);
+        if (blank % n > 0) moves.add(Move.R);
+        if (blank % n < n - 1) moves.add(Move.L);
         return moves; 
     }
 
