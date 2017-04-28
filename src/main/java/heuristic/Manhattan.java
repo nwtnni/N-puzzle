@@ -16,12 +16,13 @@ public class Manhattan extends Heuristic {
         for (int y = 0; y < size[0]; y++) {
             for (int x = 0; x < size[1]; x++) {
                 int k = n.get(x, y);
+                if (k == size[0] * size[1] - 1) continue;
                 counter += Math.abs(k % size[1] - x);
                 counter += Math.abs(k / size[1] - y);
             }
         }
 
-        return counter;
+        return counter + n.depth();
     }
 }
 

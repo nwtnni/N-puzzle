@@ -2,7 +2,6 @@ package player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashSet;
 
 import heuristic.Heuristic;
 
@@ -48,48 +47,34 @@ public class IDSPlayer extends AbstractPlayer {
     protected void getMoves() {
         int depth = 0;
         while (depth >= 0) {
-            depth = DFS(depth);
+            depth = DFS(root, depth);
         }
         return;
     }
 
     // Depth-first search
-    protected int DFS(int maxDepth) {
+    protected int DFS(PuzzleNode root, int maxDepth) {
 
-        HashSet<PuzzleNode> found = new HashSet<PuzzleNode>();
-        Deque<PuzzleNode> stack = new ArrayDeque<PuzzleNode>();
+        int score = heuristic.evaluate(root);
+        if (score > maxDepth) {
+            return score; 
+        }
+
+        if (root.solved()) {
+            moves.push(root.lastMove());
+            return -1;
+        }
+
         int min = Integer.MAX_VALUE;
-        stack.push(root);
-
-        while (!stack.isEmpty()) {
-
-            PuzzleNode n = stack.pop(); 
-            int score = heuristic.evaluate(n);
-
-            if (score > maxDepth) {
-                min = (score < min) ? score : min;
-                continue;
-            }
-
-            // Keep searching
-            if (!n.solved()) {
-                for (PuzzleNode next : n.generate()) {
-                    if (!found.contains(next)) {
-                        found.add(next);
-                        stack.push(next);
-                    }
-                }
-            // Otherwise retrace steps
+        for (PuzzleNode next : root.generate()){
+            int result = DFS(next, maxDepth);
+            if (result >= 0) {
+                min = (result < min) ? result : min;
             } else {
-                PuzzleNode ptr = n;
-                while (!ptr.equals(root)) {
-                    moves.push(ptr.lastMove());
-                    ptr = ptr.lastPuzzle();
-                }
+                moves.push(next.lastMove());
                 return -1;
             }
         }
-
         return min;
     }
 }

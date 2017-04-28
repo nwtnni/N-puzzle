@@ -9,18 +9,19 @@ import util.PuzzleNode;
 public class OutOfPlace extends Heuristic { 
 
     @Override
-    public int evaluate(PuzzleNode pn) {
+    public int evaluate(PuzzleNode n) {
         
-        int[] size = pn.size();
+        int[] size = n.size();
         int counter = 0;
 
         for (int y = 0, i = 0; y < size[0]; y++) {
             for (int x = 0; x < size[1]; x++) {
-                if (pn.get(x, y) != i++) {
+                int tile = n.get(x, y);
+                if (tile != i++ && tile != size[0] * size[1] - 1) {
                     counter++; 
                 }
             }
         }
-        return counter;
+        return counter + n.depth();
     }
 }
