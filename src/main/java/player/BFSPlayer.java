@@ -53,7 +53,6 @@ public class BFSPlayer extends AbstractPlayer {
         q.add(root);
 
         while (!q.isEmpty()) {
-
             PuzzleNode n = q.poll(); 
 
             // Keep searching
@@ -66,7 +65,6 @@ public class BFSPlayer extends AbstractPlayer {
                 }
             // Otherwise retrace steps
             } else {
-
                 PuzzleNode ptr = n;
                 while (!ptr.equals(root)) {
                     moves.push(ptr.lastMove());

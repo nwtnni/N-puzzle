@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
 
+import heuristic.Heuristic;
+
 import puzzle.AbstractPuzzle;
 import puzzle.Move;
 
@@ -15,13 +17,15 @@ import util.PuzzleNode;
  */
 public class IDSPlayer extends AbstractPlayer {
 
-    protected PuzzleNode root;
-    protected Deque<Move> moves;
+    private PuzzleNode root;
+    private Deque<Move> moves;
+    private Heuristic heuristic;
 
-    public IDSPlayer(AbstractPuzzle puzzle) {
+    public IDSPlayer(AbstractPuzzle puzzle, Heuristic h) {
         super(puzzle);
         root = new PuzzleNode(puzzle, 0, null, null);
         moves = new ArrayDeque<Move>();
+        heuristic = h;
     }
 
     @Override
@@ -42,22 +46,30 @@ public class IDSPlayer extends AbstractPlayer {
 
     // Helper method for IDS
     protected void getMoves() {
-        int depth = 1; 
-        while (!DFS(depth++)) {}
+        int depth = 0;
+        while (depth >= 0) {
+            depth = DFS(depth);
+        }
         return;
     }
 
     // Depth-first search
-    protected boolean DFS(int maxDepth) {
+    protected int DFS(int maxDepth) {
 
         HashSet<PuzzleNode> found = new HashSet<PuzzleNode>();
         Deque<PuzzleNode> stack = new ArrayDeque<PuzzleNode>();
+        int min = Integer.MAX_VALUE;
         stack.push(root);
 
         while (!stack.isEmpty()) {
-            PuzzleNode n = stack.pop(); 
 
-            if (n.depth() > maxDepth) continue;
+            PuzzleNode n = stack.pop(); 
+            int score = heuristic.evaluate(n);
+
+            if (score > maxDepth) {
+                min = (score < min) ? score : min;
+                continue;
+            }
 
             // Keep searching
             if (!n.solved()) {
@@ -74,10 +86,10 @@ public class IDSPlayer extends AbstractPlayer {
                     moves.push(ptr.lastMove());
                     ptr = ptr.lastPuzzle();
                 }
-                return true;
+                return -1;
             }
         }
 
-        return false;
+        return min;
     }
 }

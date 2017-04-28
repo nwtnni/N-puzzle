@@ -14,9 +14,11 @@ public class Main {
         System.out.println("<PLAYER> is one of :");
         System.out.println("\t-b to use naive breadth-first search");
         System.out.println("\t-h to play manually");
-        System.out.println("\t-i to use iterative depth-first search");
-        System.out.println("\t-m to use A* search with the Manhattan distance heuristic (see readme)");
-        System.out.println("\t-o to use A* search with the out-of-place heuristic (see readme)");
+        System.out.println("\t-i to use naive iterative depth-first search");
+        System.out.println("\t-mb to use A* search with the Manhattan distance heuristic (see readme)");
+        System.out.println("\t-mi to use IDA* search with the Manhattan distance heuristic (see readme)");
+        System.out.println("\t-ob to use A* search with the out-of-place heuristic (see readme)");
+        System.out.println("\t-oi to use IDA* search with the out-of-place heuristic (see readme)");
         System.out.println("\t-r to play randomly");
         System.out.println("<AVG> is one of the following:");
         System.out.println("\t0 to do a step-by-step solve, with pretty-printing");
@@ -54,16 +56,22 @@ public class Main {
                 player = PlayerFactory.getHuman(p);
                 break;
             case "-b":
-                player = PlayerFactory.getNaive(p);
+                player = PlayerFactory.getNaiveBFS(p);
                 break;
-            case "-o":
-                player = PlayerFactory.getOutOfPlace(p);
+            case "-ob":
+                player = PlayerFactory.getOutOfPlaceBFS(p);
                 break;
-            case "-m":
-                player = PlayerFactory.getManhattan(p);
+            case "-mb":
+                player = PlayerFactory.getManhattanBFS(p);
                 break;
             case "-i":
-                player = PlayerFactory.getIDS(p);
+                player = PlayerFactory.getNaiveIDS(p);
+                break;
+            case "-mi":
+                player = PlayerFactory.getManhattanIDS(p);
+                break;
+            case "-oi":
+                player = PlayerFactory.getOutOfPlaceIDS(p);
                 break;
             case "-r":
                 player = PlayerFactory.getRandom(p);

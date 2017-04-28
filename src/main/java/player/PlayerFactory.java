@@ -1,8 +1,8 @@
 package player;
 
+import heuristic.Manhattan;
 import heuristic.Naive;
 import heuristic.OutOfPlace;
-import heuristic.Manhattan;
 
 import puzzle.AbstractPuzzle;
 
@@ -12,43 +12,60 @@ import puzzle.AbstractPuzzle;
 public class PlayerFactory {
 
     /*
-     * Returns a HumanPlayer.
+     * Returns a player taking input from console.
      */
     public static AbstractPlayer getHuman(AbstractPuzzle ap) {
         return new HumanPlayer(ap); 
     }
 
     /*
-     * Returns a BFSPlayer using the naive breadth-first search.
+     * Returns a player using naive breadth-first search.
      */
-    public static AbstractPlayer getNaive(AbstractPuzzle ap) {
+    public static AbstractPlayer getNaiveBFS(AbstractPuzzle ap) {
         return new BFSPlayer(ap, new Naive());
     }
 
     /*
-     * Returns a BFSPlayer using the out of place heuristic.
+     * Returns a player using A* search with the out of place 
+     * heuristic.
      */
-    public static AbstractPlayer getOutOfPlace(AbstractPuzzle ap) {
+    public static AbstractPlayer getOutOfPlaceBFS(AbstractPuzzle ap) {
         return new BFSPlayer(ap, new OutOfPlace());
     }
 
-
     /*
-     * Returns a BFSPlayer using the Manhattan distance heuristic.
+     * Returns a player using A* search with the Manhattan distance
+     * heuristic.
      */
-    public static AbstractPlayer getManhattan(AbstractPuzzle ap) {
+    public static AbstractPlayer getManhattanBFS(AbstractPuzzle ap) {
         return new BFSPlayer(ap, new Manhattan());
     }
 
     /*
-     * Returns an IDSPlayer.
+     * Returns a player using naive iterative-deepening search.
      */
-    public static AbstractPlayer getIDS(AbstractPuzzle ap) {
-        return new IDSPlayer(ap);
+    public static AbstractPlayer getNaiveIDS(AbstractPuzzle ap) {
+        return new IDSPlayer(ap, new Naive());
     }
 
     /*
-     * Returns a RandomPlayer.
+     * Returns a player using IDA* search with the out of place
+     * heuristic.
+     */
+    public static AbstractPlayer getOutOfPlaceIDS(AbstractPuzzle ap) {
+        return new IDSPlayer(ap, new OutOfPlace());
+    }
+
+    /*
+     * Returns a player using IDA* search with the Manhattan distance
+     * heuristic.
+     */
+    public static AbstractPlayer getManhattanIDS(AbstractPuzzle ap) {
+        return new IDSPlayer(ap, new Manhattan());
+    }
+
+    /*
+     * Returns a player playing randomly.
      */
     public static AbstractPlayer getRandom(AbstractPuzzle ap) {
         return new RandomPlayer(ap);

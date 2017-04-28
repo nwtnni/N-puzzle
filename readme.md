@@ -22,12 +22,14 @@ java -jar N-puzzle.jar <M> <N> <MOVES> <PLAYER> <AVG> <RATE>
 
 **\<MOVES\>** is the number of moves used to randomize the puzzle
 
-**\<PLAYER\>** is one of -b, -h, -i, -m, -o, -r:
+**\<PLAYER\>** is one of -b, -h, -i, -mb, -mi, -ob, -oi, -r:
 * \-b to use naive breadth-first search
 * \-h to play manually
-* \-i to use iterative depth-first search
-* \-m to use A\* search with the Manhattan distance heuristic
-* \-o to use A\* search with the out-of-place heuristic
+* \-i to use naive iterative depth-first search
+* \-mb to use A\* search with the Manhattan distance heuristic
+* \-mi to use IDA\* search with the Manhattan distance heuristic
+* \-ob to use A\* search with the out-of-place heuristic
+* \-oi to use IDA\* search with the out-of-place distance heuristic
 * \-r to play randomly
 
 **\<AVG\>** is one of the following
