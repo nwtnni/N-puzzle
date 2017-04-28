@@ -110,6 +110,10 @@ public class Main {
                 }
                 System.out.println(p);
             }
+
+            for (String key : player.stats().keySet()) {
+                System.out.println(key + player.stats().get(key)); 
+            }
         
         } else {
 

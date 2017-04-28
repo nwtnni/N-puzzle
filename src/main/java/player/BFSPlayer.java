@@ -23,7 +23,7 @@ public class BFSPlayer extends AbstractPlayer {
     private Heuristic h;
     private Deque<Move> moves;
     private double explored;
-    private double max_depth;
+    private double sol;
 
     public BFSPlayer(AbstractPuzzle puzzle, Heuristic heuristic) {
         super(puzzle);
@@ -35,8 +35,8 @@ public class BFSPlayer extends AbstractPlayer {
     @Override
     public void solve() {
         explored = 0;
-        max_depth = 0;
         getMoves();
+        sol = moves.size();
         while (!moves.isEmpty()) {
             puzzle.inPlaceMove(moves.pop());
         }
@@ -45,8 +45,8 @@ public class BFSPlayer extends AbstractPlayer {
     @Override
     public HashMap<String, Double> stats() {
         HashMap<String, Double> stats = new HashMap<String, Double>(); 
+        stats.put("Solution length:      ", sol);
         stats.put("Total nodes explored: ", explored);
-        stats.put("Maximum depth:        ", max_depth);
         return stats;
     }
 
@@ -54,8 +54,8 @@ public class BFSPlayer extends AbstractPlayer {
     public void step() {
         if (moves.isEmpty()) {
             explored = 0;
-            max_depth = 0;
             getMoves();
+            sol = moves.size();
         }
         puzzle.inPlaceMove(moves.pop());
     }
@@ -82,7 +82,7 @@ public class BFSPlayer extends AbstractPlayer {
             // Otherwise retrace steps
             } else {
                 PuzzleNode ptr = n;
-                max_depth = n.depth();
+                sol = n.depth();
                 while (!ptr.equals(root)) {
                     moves.push(ptr.lastMove());
                     ptr = ptr.lastPuzzle();
