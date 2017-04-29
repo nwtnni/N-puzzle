@@ -77,7 +77,8 @@ public class IDSPlayer extends AbstractPlayer {
         }
 
         if (root.solved()) {
-            moves.push(root.lastMove());
+            Move m = root.lastMove();
+            if (m != null) moves.push(m);
             return -1;
         }
 

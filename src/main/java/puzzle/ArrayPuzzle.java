@@ -2,8 +2,8 @@ package puzzle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /*
  * A sliding puzzle implemented using arrays.
@@ -45,10 +45,8 @@ public class ArrayPuzzle extends AbstractPuzzle {
 
     @Override
     public void randomize(int moves) {
-        Random r = new Random();
         for (int i = 0; i < moves; i++) {
-            List<Move> next = validMoves();
-            inPlaceMove(next.get(r.nextInt(next.size())));
+            inPlaceMove(validMoves().get(0));
         } 
     }
 
@@ -105,6 +103,7 @@ public class ArrayPuzzle extends AbstractPuzzle {
         if (blank >= n) moves.add(Move.D);
         if (blank % n > 0) moves.add(Move.R);
         if (blank % n < n - 1) moves.add(Move.L);
+        Collections.shuffle(moves);
         return moves; 
     }
 

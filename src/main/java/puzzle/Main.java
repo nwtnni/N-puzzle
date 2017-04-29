@@ -13,18 +13,18 @@ public class Main {
         System.out.println("<M> x <N> is the dimension of puzzle to create.");
         System.out.println("<MOVES> is the number of moves used to randomize the puzzle.");
         System.out.println("<PLAYER> is one of :");
-        System.out.println("\t-b to use naive breadth-first search");
-        System.out.println("\t-h to play manually");
-        System.out.println("\t-i to use naive iterative depth-first search");
-        System.out.println("\t-mi to use IDA* search with the Manhattan distance heuristic (see readme)");
-        System.out.println("\t-ma to use A* search with the Manhattan distance heuristic (see readme)");
-        System.out.println("\t-fma to use A* search with the Manhattan distance heuristic (see readme)");
-        System.out.println("\t-li to use IDA* search with the Manhattan distance plus linear conflict heuristic (see readme)");
-        System.out.println("\t-la to use A* search with the Manhattan distance plus linear conflict heuristic (see readme)");
-        System.out.println("\t-fla to use A* search with the Manhattan distance heuristic (see readme)");
-        System.out.println("\t-oa to use A* search with the out-of-place heuristic (see readme)");
-        System.out.println("\t-oi to use IDA* search with the out-of-place heuristic (see readme)");
-        System.out.println("\t-r to play randomly");
+        System.out.println("\t-b   : Naive breadth-first search");
+        System.out.println("\t-h   : Manual");
+        System.out.println("\t-i   : Naive iterative deepening search");
+        System.out.println("\t-mi  : IDA* search, Manhattan distance");
+        System.out.println("\t-ma  : A* search, Manhattan distance");
+        System.out.println("\t-fma : Fast but non-optimal A* search,  Manhattan distance");
+        System.out.println("\t-li  : IDA* search, Manhattan distance + linear interference");
+        System.out.println("\t-la  : A* search, Manhattan distance + linear interference");
+        System.out.println("\t-fla : Fast but non-optimal A* search,  Manhattan distance + linear interference");
+        System.out.println("\t-oa  : A* search, out-of-place");
+        System.out.println("\t-oi  : IDA* search, out-of-place");
+        System.out.println("\t-r   : Random");
         System.out.println("<AVG> is one of the following:");
         System.out.println("\t0 to do a step-by-step solve, with pretty-printing");
         System.out.println("\tn to average the solving time taken over n trials");
@@ -124,6 +124,7 @@ public class Main {
 
             for (int i = 0; i < trials; i++) {
                 p.randomize(moves);
+                System.out.println("Starting trial " + (i + 1) + "...");
                 total += timedSolve(player); 
                 for (String key : player.stats().keySet()) {
                     Double val = player.stats().get(key);
@@ -135,7 +136,7 @@ public class Main {
                 }
             }
 
-            System.out.println("Average time: " + (total / 1e9 / trials) + " seconds" );
+            System.out.println("Average time (sec):   " + (total / 1e9 / trials));
             for (String key : stats.keySet()) {
                 System.out.println(key + stats.get(key) / trials); 
             }
